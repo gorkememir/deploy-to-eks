@@ -7,9 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  terraform:
+  deploy-dev:
     runs-on: ubuntu-latest
-    environment: dev
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -27,11 +26,14 @@ jobs:
           terraform_version: 1.6.6
 
       - name: Terraform Init
+        working-directory: ./terraform/envs/dev
         run: terraform init
 
       - name: Terraform Plan
+        working-directory: ./terraform/envs/dev
         run: terraform plan
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
+        working-directory: ./terraform/envs/dev
         run: terraform apply -auto-approve 
