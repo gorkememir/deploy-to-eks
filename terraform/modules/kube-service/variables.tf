@@ -57,3 +57,9 @@ variable "service_type" {
   type        = string
   default     = "LoadBalancer"
 }
+
+variable "namespace" {
+  description = "Namespace of the Kubernetes service"
+  type        = string
+  default     = "default"
+}

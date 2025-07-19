@@ -1,6 +1,7 @@
 resource "kubernetes_deployment" "demo_app" {
   metadata {
     name = var.deployment_name
+    namespace = var.namespace
     labels = {
       app = var.app_label
     }
@@ -39,6 +40,7 @@ resource "kubernetes_deployment" "demo_app" {
 resource "kubernetes_service" "demo_app_svc" {
   metadata {
     name = var.service_name
+    namespace = var.namespace
   }
 
   spec {
