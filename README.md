@@ -42,8 +42,18 @@ This approach makes it easy to scale your infrastructure and keep your configura
 - Network: 
     - Following the AWS best practices, I've provisioned a VPC with 4 subnets with 253 allocateble IP addresses (/24 each), 2 private and 2 public subnets.
     - Private subnets are attached to a NAT Gateway and public ones are to an Internet Gateway.
-    - EKS cluster is placed in the private subnets (2 different AZ's)
+- Security
+    - EKS cluster is placed in the private subnets (2 different AZ's) behind a NAT gateway to have a controlled outbound internet access.
+    - AWS secrets are kept safely as repo secrets and the deployment workflow pulls it from there.
+    - Terraform state is kept safely in an S3 bucket remotely, so that it's not prone to the possible failures in a local machine.
+    - We're also automatically utilizing out of the box AWS security features such as CloudWatch events, AWS Config Rules, VPC Flow Logs, and CloudTrail API logging.
+
+### Future Improvements
 - I deployed a default nginx image for the sake of simplicity. This can be improved by adding custom application code, docker build, image push stages. And these steps can all be automated in a similar way we're deploying our current infrastructure.
+- There can be added a well-structured CI/CD environment. We can utilize helm charts to easily manage kubernetes configuration, custom image builds, ArgoCD for continuous deployment.
+- Provision more environments. Currently we only have dev, but in a real environment we can provision test, stage, and prod. And a well-defined release strategy.
+- Create unit-tests and smoke-tests, promote to a higher env (eg test > stage) only when these tests pass successfully.
+- Automate deployment, create release candidates, define rollback and hotfix strategies.
 
 
 
