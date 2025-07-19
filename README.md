@@ -21,7 +21,17 @@ If you'd like to deploy to another AWS account, configure a new terraform backen
 - Add your cluster features under [`clusters` here](https://github.com/gorkememir/deploy-to-eks/blob/271782e9fddfe2000130fd7c82323d47f5ec8615/terraform/envs/dev/locals.tf#L2).
 - Configure a new kubernetes provider, as you'll be deploying to a new EKS cluster now.
 - Create a PR and merge to main.
-- The github action [`terraform-deploy`](https://github.com/gorkememir/deploy-to-eks/blob/main/.github/workflows/terraform-deploy.yml) will auto-run to apply terraform. 
+- The github action [`terraform-deploy`](https://github.com/gorkememir/deploy-to-eks/blob/main/.github/workflows/terraform-deploy.yml) will auto-run to apply terraform.
+
+## Deployment considerations
+### Behind the scenes
+When deploying from scratch, the order of resource provisioning is important:
+
+1. **VPC Module**: Deploy the VPC and networking resources first. This provides the foundational network infrastructure required for the EKS cluster.
+2. **EKS Cluster**: Once the VPC is ready, deploy the EKS cluster. The cluster will be created within the VPC subnets.
+3. **Kubernetes Services**: After the EKS cluster is up and running, deploy your Kubernetes workloads and services (such as Deployments and Services) into the cluster.
+
+Terraform modules in this project are structured to respect these dependencies. For example, the Kubernetes service module depends on the EKS cluster module, which in turn depends on the VPC module. This ensures Terraform will automatically create resources in the correct order when you run `terraform apply`.
 
 ## Terraform architecture
 
