@@ -57,6 +57,10 @@ This approach makes it easy to scale your infrastructure and keep your configura
     - AWS secrets are kept safely as repo secrets and the deployment workflow pulls it from there.
     - Terraform state is kept safely in an S3 bucket remotely, so that it's not prone to the possible failures in a local machine.
     - We're also automatically utilizing out of the box AWS security features such as CloudWatch events, AWS Config Rules, VPC Flow Logs, and CloudTrail API logging.
+    - The EKS cluster and node groups use AWS-recommended IAM policies for security and functionality:
+        - The cluster role uses `AmazonEKSClusterPolicy`.
+        - The node group role uses `AmazonEKSWorkerNodePolicy`, `AmazonEKS_CNI_Policy`, and `AmazonEC2ContainerRegistryReadOnly`.
+    These policies allow the cluster and nodes to operate securely and access necessary AWS services.
 
 ### Future Improvements
 - I deployed a default nginx image for the sake of simplicity. This can be improved by adding custom application code, docker build, image push stages. And these steps can all be automated in a similar way we're deploying our current infrastructure.
