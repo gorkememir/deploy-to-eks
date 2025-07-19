@@ -33,6 +33,20 @@ These locals are then referenced in our Terraform modules using `for_each`. For 
 
 This approach makes it easy to scale your infrastructure and keep your configurations DRY (Don't Repeat Yourself), as you don't need to manually duplicate module blocks for each resource.
 
+## Key Decisions
+- I decided to create a Github action to make the deployment easier for the end user. This approach saves the user from having to perform the following actions:
+	- Clone the repo to their local machine.
+    - Manage AWS credentials locally.
+    - Manually run Terraform commands or install Terraform CLI.
+- Terraform is designed in a way to enable users easily provision new resources by just adding them in the `locals.tf` file. Even if they miss some features, default values are already defined, so the pipeline will not fail.
+- Network: 
+    - Following the AWS best practices, I've provisioned a VPC with 4 subnets with 253 allocateble IP addresses (/24 each), 2 private and 2 public subnets.
+    - Private subnets are attached to a NAT Gateway and public ones are to an Internet Gateway.
+    - EKS cluster is placed in the private subnets (2 different AZ's)
+- I deployed a default nginx image for the sake of simplicity. This can be improved by adding custom application code, docker build, image push stages. And these steps can all be automated in a similar way we're deploying our current infrastructure.
+
+
+
 
 
 
