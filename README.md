@@ -29,7 +29,7 @@ When deploying from scratch, the order of resource provisioning is important:
 
 1. **VPC Module**: Deploy the VPC and networking resources first. This provides the foundational network infrastructure required for the EKS cluster.
 2. **EKS Cluster**: Once the VPC is ready, deploy the EKS cluster. The cluster will be created within the VPC subnets.
-3. **Kubernetes Services**: After the EKS cluster is up and running, deploy your Kubernetes workloads and services (such as Deployments and Services) into the cluster.
+3. **Kubernetes Services**: After the EKS cluster is up and running, first configure your Kubernetes provider for Terraform, then deploy your Kubernetes workloads and services (such as Deployments and Services) into the cluster.
 
 Terraform modules in this project are structured to respect these dependencies. For example, the Kubernetes service module depends on the EKS cluster module, which in turn depends on the VPC module. This ensures Terraform will automatically create resources in the correct order when you run `terraform apply`.
 
