@@ -6,22 +6,22 @@ This guide will walk you through deploying a sample application to an Amazon EKS
 
 ## Deployment via Github action
 
-This is the easiest way! Simply run [`terraform-deploy`](../.github/workflows/terraform-deploy.yml) action in the repo, and it will apply the current version of the main branch to the AWS account.
+This is the easiest way! Simply run [`terraform-deploy`](https://github.com/gorkememir/deploy-to-eks/blob/main/.github/workflows/terraform-deploy.yml) action in the repo, and it will apply the current version of the main branch to the AWS account.
 
 This workflow also runs upon anything is merged to the `main` branch, so every new pull request will auto-trigger it upon merge.
 
 If you'd like to deploy to another AWS account, configure a new terraform backend, update the AWS credential secrets in the repo, and you should be good to go!
 
 #### To provision a new Kubernetes service in the existing cluster;
-- Create a new branch, add your new service to [`services` here](../terraform/envs/dev/locals.tf#L14).
+- Create a new branch, add your new service to [`services` here](https://github.com/gorkememir/deploy-to-eks/blob/271782e9fddfe2000130fd7c82323d47f5ec8615/terraform/envs/dev/locals.tf#L22).
 - Create a PR and merge to main.
-- The github action [`terraform-deploy`](../.github/workflows/terraform-deploy.yml) will auto-run to apply terraform. 
+- The github action [`terraform-deploy`](https://github.com/gorkememir/deploy-to-eks/blob/main/.github/workflows/terraform-deploy.yml) will auto-run to apply terraform. 
 
 #### To provision a new EKS cluster;
-- Add your cluster features under [`clusters` here](../terraform/envs/dev/locals.tf#L14).
+- Add your cluster features under [`clusters` here](https://github.com/gorkememir/deploy-to-eks/blob/271782e9fddfe2000130fd7c82323d47f5ec8615/terraform/envs/dev/locals.tf#L2).
 - Configure a new kubernetes provider, as you'll be deploying to a new EKS cluster now.
 - Create a PR and merge to main.
-- The github action [`terraform-deploy`](../.github/workflows/terraform-deploy.yml) will auto-run to apply terraform. 
+- The github action [`terraform-deploy`](https://github.com/gorkememir/deploy-to-eks/blob/main/.github/workflows/terraform-deploy.yml) will auto-run to apply terraform. 
 
 ## Terraform architecture
 
